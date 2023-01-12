@@ -1,0 +1,95 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HToken
+    network: mumbai
+    source:
+      address: "0xcbe353B6eE82ddd4383167E32f0BEdfD2616976b"
+      abi: HToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - AddressUpdated
+        - AdminFeesWithdrawn
+        - ApprovalForAll
+        - Borrow
+        - BorrowFeesWithdrawn
+        - BorrowLiquidated
+        - BorrowReferred
+        - CollateralDeposited
+        - CollateralWithdrawn
+        - HiveFeesWithdrawn
+        - InterestAccrued
+        - LiquidationClosed
+        - ProtocolFeesUpdated
+        - Redeem
+        - RepayBorrow
+        - ReservesAdded
+        - ReservesReduced
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - TransferBatch
+        - TransferSingle
+        - URI
+        - UnderlyingDeposited
+        - Withdraw
+      abis:
+        - name: HToken
+          file: ./abis/HToken.json
+      eventHandlers:
+        - event: AddressUpdated(indexed address,indexed address,uint256)
+          handler: handleAddressUpdated
+        - event: AdminFeesWithdrawn(uint256)
+          handler: handleAdminFeesWithdrawn
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Borrow(indexed address,uint256,uint256,uint256)
+          handler: handleBorrow
+        - event: BorrowFeesWithdrawn(uint256,bool)
+          handler: handleBorrowFeesWithdrawn
+        - event: BorrowLiquidated(indexed address,indexed address,address,uint256)
+          handler: handleBorrowLiquidated
+        - event: BorrowReferred(indexed address,string,uint256,uint256)
+          handler: handleBorrowReferred
+        - event: CollateralDeposited(indexed address,uint256,uint256)
+          handler: handleCollateralDeposited
+        - event: CollateralWithdrawn(indexed address,uint256)
+          handler: handleCollateralWithdrawn
+        - event: HiveFeesWithdrawn(uint256)
+          handler: handleHiveFeesWithdrawn
+        - event: InterestAccrued(uint256,uint256,uint256)
+          handler: handleInterestAccrued
+        - event: LiquidationClosed(indexed address,indexed address,uint256,uint256)
+          handler: handleLiquidationClosed
+        - event: ProtocolFeesUpdated(uint256,uint256,uint256,uint256,uint256,uint256)
+          handler: handleProtocolFeesUpdated
+        - event: Redeem(indexed address,uint256,uint256,uint256)
+          handler: handleRedeem
+        - event: RepayBorrow(indexed address,indexed address,uint256,uint256,uint256,uint256)
+          handler: handleRepayBorrow
+        - event: ReservesAdded(indexed address,uint256,uint256)
+          handler: handleReservesAdded
+        - event: ReservesReduced(indexed address,uint256,uint256)
+          handler: handleReservesReduced
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+        - event: URI(string,indexed uint256)
+          handler: handleURI
+        - event: UnderlyingDeposited(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleUnderlyingDeposited
+        - event: Withdraw(indexed address,uint256,uint256,uint256)
+          handler: handleWithdraw
+      file: ./src/h-token.ts
