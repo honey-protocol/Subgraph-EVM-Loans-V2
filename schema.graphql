@@ -1,0 +1,185 @@
+type AddressUpdated @entity {
+  id: ID!
+  _oldAddress: Bytes! # address
+  _newAddress: Bytes! # address
+  _target: BigInt! # uint256
+}
+
+type AdminFeesWithdrawn @entity {
+  id: ID!
+  _amount: BigInt! # uint256
+}
+
+type ApprovalForAll @entity {
+  id: ID!
+  account: Bytes! # address
+  operator: Bytes! # address
+  approved: Boolean! # bool
+}
+
+type Borrow @entity {
+  id: ID!
+  _borrower: Bytes! # address
+  _borrowAmount: BigInt! # uint256
+  _tokenId: BigInt! # uint256
+  _totalBorrows: BigInt! # uint256
+}
+
+type BorrowFeesWithdrawn @entity {
+  id: ID!
+  _amount: BigInt! # uint256
+  _referralFees: Boolean! # bool
+}
+
+type BorrowLiquidated @entity {
+  id: ID!
+  _initiator: Bytes! # address
+  _liquidator: Bytes! # address
+  _owner: Bytes! # address
+  _collateralId: BigInt! # uint256
+}
+
+type BorrowReferred @entity {
+  id: ID!
+  _initiator: Bytes! # address
+  _referrer: String! # string
+  _amount: BigInt! # uint256
+  _fee: BigInt! # uint256
+}
+
+type CollateralDeposited @entity {
+  id: ID!
+  _initiator: Bytes! # address
+  _collateralId: BigInt! # uint256
+  _couponId: BigInt! # uint256
+}
+
+type CollateralWithdrawn @entity {
+  id: ID!
+  _initiator: Bytes! # address
+  _collateralId: BigInt! # uint256
+}
+
+type HiveFeesWithdrawn @entity {
+  id: ID!
+  _amount: BigInt! # uint256
+}
+
+type InterestAccrued @entity {
+  id: ID!
+  _interestAccumulated: BigInt! # uint256
+  _interestIndex: BigInt! # uint256
+  _totalBorrows: BigInt! # uint256
+}
+
+type LiquidationClosed @entity {
+  id: ID!
+  _initiator: Bytes! # address
+  _borrower: Bytes! # address
+  _collateralId: BigInt! # uint256
+  _borrowAmount: BigInt! # uint256
+}
+
+type ProtocolFeesUpdated @entity {
+  id: ID!
+  _oldHiveFee: BigInt! # uint256
+  _newHiveFee: BigInt! # uint256
+  _oldAdminFee: BigInt! # uint256
+  _newAdminFee: BigInt! # uint256
+  _oldReserveFactor: BigInt! # uint256
+  _newReserveFactor: BigInt! # uint256
+}
+
+type Redeem @entity {
+  id: ID!
+  _initiator: Bytes! # address
+  _redeemAmount: BigInt! # uint256
+  _tokensWithdrawn: BigInt! # uint256
+  _totalHTokenSupply: BigInt! # uint256
+}
+
+type RepayBorrow @entity {
+  id: ID!
+  _payer: Bytes! # address
+  _borrower: Bytes! # address
+  _repayAmount: BigInt! # uint256
+  _accountBorrows: BigInt! # uint256
+  _totalBorrows: BigInt! # uint256
+  _collateralId: BigInt! # uint256
+}
+
+type ReservesAdded @entity {
+  id: ID!
+  _supplier: Bytes! # address
+  _addAmount: BigInt! # uint256
+  _newTotalReserves: BigInt! # uint256
+}
+
+type ReservesReduced @entity {
+  id: ID!
+  _supplier: Bytes! # address
+  _reduceAmount: BigInt! # uint256
+  _newTotalReserves: BigInt! # uint256
+}
+
+type RoleAdminChanged @entity {
+  id: ID!
+  role: Bytes! # bytes32
+  previousAdminRole: Bytes! # bytes32
+  newAdminRole: Bytes! # bytes32
+}
+
+type RoleGranted @entity {
+  id: ID!
+  role: Bytes! # bytes32
+  account: Bytes! # address
+  sender: Bytes! # address
+}
+
+type RoleRevoked @entity {
+  id: ID!
+  role: Bytes! # bytes32
+  account: Bytes! # address
+  sender: Bytes! # address
+}
+
+type TransferBatch @entity {
+  id: ID!
+  operator: Bytes! # address
+  from: Bytes! # address
+  to: Bytes! # address
+  ids: [BigInt!]! # uint256[]
+  values: [BigInt!]! # uint256[]
+}
+
+type TransferSingle @entity {
+  id: ID!
+  operator: Bytes! # address
+  from: Bytes! # address
+  to: Bytes! # address
+  id: BigInt! # uint256
+  value: BigInt! # uint256
+}
+
+type URI @entity {
+  id: ID!
+  value: String! # string
+  id: BigInt! # uint256
+}
+
+type UnderlyingDeposited @entity {
+  id: ID!
+  _initiator: Bytes! # address
+  _to: Bytes! # address
+  _amount: BigInt! # uint256
+  _tokensToMint: BigInt! # uint256
+  _totalhTokenSupply: BigInt! # uint256
+}
+
+type Withdraw @entity {
+  id: ID!
+  _initiator: Bytes! # address
+  _redeemAmount: BigInt! # uint256
+  _tokensWithdrawn: BigInt! # uint256
+  _totalHTokenSupply: BigInt! # uint256
+}
