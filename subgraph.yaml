@@ -8,6 +8,7 @@ dataSources:
     source:
       address: "0xcbe353B6eE82ddd4383167E32f0BEdfD2616976b"
       abi: HToken
+      startBlock: 30461200
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
