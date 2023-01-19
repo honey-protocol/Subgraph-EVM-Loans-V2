@@ -7,9 +7,6 @@ import {
   afterAll
 } from "matchstick-as/assembly/index"
 import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts"
-import { AddressUpdated } from "../generated/schema"
-import { AddressUpdated as AddressUpdatedEvent } from "../generated/HToken/HToken"
-import { handleAddressUpdated } from "../src/h-token"
 import { createAddressUpdatedEvent } from "./h-token-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
@@ -29,7 +26,6 @@ describe("Describe entity assertions", () => {
       _newAddress,
       _target
     )
-    handleAddressUpdated(newAddressUpdatedEvent)
   })
 
   afterAll(() => {

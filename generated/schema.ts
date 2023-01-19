@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class AddressUpdated extends Entity {
+export class Coupon extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,18 +19,18 @@ export class AddressUpdated extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save AddressUpdated entity without an ID");
+    assert(id != null, "Cannot save Coupon entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type AddressUpdated must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Coupon must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("AddressUpdated", id.toString(), this);
+      store.set("Coupon", id.toString(), this);
     }
   }
 
-  static load(id: string): AddressUpdated | null {
-    return changetype<AddressUpdated | null>(store.get("AddressUpdated", id));
+  static load(id: string): Coupon | null {
+    return changetype<Coupon | null>(store.get("Coupon", id));
   }
 
   get id(): string {
@@ -42,137 +42,71 @@ export class AddressUpdated extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get _oldAddress(): Bytes {
-    let value = this.get("_oldAddress");
-    return value!.toBytes();
-  }
-
-  set _oldAddress(value: Bytes) {
-    this.set("_oldAddress", Value.fromBytes(value));
-  }
-
-  get _newAddress(): Bytes {
-    let value = this.get("_newAddress");
-    return value!.toBytes();
-  }
-
-  set _newAddress(value: Bytes) {
-    this.set("_newAddress", Value.fromBytes(value));
-  }
-
-  get _target(): BigInt {
-    let value = this.get("_target");
+  get collateralID(): BigInt {
+    let value = this.get("collateralID");
     return value!.toBigInt();
   }
 
-  set _target(value: BigInt) {
-    this.set("_target", Value.fromBigInt(value));
-  }
-}
-
-export class AdminFeesWithdrawn extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
+  set collateralID(value: BigInt) {
+    this.set("collateralID", Value.fromBigInt(value));
   }
 
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save AdminFeesWithdrawn entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type AdminFeesWithdrawn must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("AdminFeesWithdrawn", id.toString(), this);
-    }
-  }
-
-  static load(id: string): AdminFeesWithdrawn | null {
-    return changetype<AdminFeesWithdrawn | null>(
-      store.get("AdminFeesWithdrawn", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _amount(): BigInt {
-    let value = this.get("_amount");
+  get couponID(): BigInt {
+    let value = this.get("couponID");
     return value!.toBigInt();
   }
 
-  set _amount(value: BigInt) {
-    this.set("_amount", Value.fromBigInt(value));
-  }
-}
-
-export class ApprovalForAll extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
+  set couponID(value: BigInt) {
+    this.set("couponID", Value.fromBigInt(value));
   }
 
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ApprovalForAll entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type ApprovalForAll must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("ApprovalForAll", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ApprovalForAll | null {
-    return changetype<ApprovalForAll | null>(store.get("ApprovalForAll", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
+  get underlyingTokenAddr(): string {
+    let value = this.get("underlyingTokenAddr");
     return value!.toString();
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set underlyingTokenAddr(value: string) {
+    this.set("underlyingTokenAddr", Value.fromString(value));
   }
 
-  get account(): Bytes {
-    let value = this.get("account");
-    return value!.toBytes();
+  get collateralTokenAddr(): string {
+    let value = this.get("collateralTokenAddr");
+    return value!.toString();
   }
 
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
+  set collateralTokenAddr(value: string) {
+    this.set("collateralTokenAddr", Value.fromString(value));
   }
 
-  get operator(): Bytes {
-    let value = this.get("operator");
-    return value!.toBytes();
+  get hTokenAddr(): string {
+    let value = this.get("hTokenAddr");
+    return value!.toString();
   }
 
-  set operator(value: Bytes) {
-    this.set("operator", Value.fromBytes(value));
+  set hTokenAddr(value: string) {
+    this.set("hTokenAddr", Value.fromString(value));
   }
 
-  get approved(): boolean {
-    let value = this.get("approved");
+  get active(): boolean {
+    let value = this.get("active");
     return value!.toBoolean();
   }
 
-  set approved(value: boolean) {
-    this.set("approved", Value.fromBoolean(value));
+  set active(value: boolean) {
+    this.set("active", Value.fromBoolean(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value!.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 }
 
-export class Borrow extends Entity {
+export class Collateral extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -180,18 +114,18 @@ export class Borrow extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Borrow entity without an ID");
+    assert(id != null, "Cannot save Collateral entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Borrow must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Collateral must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Borrow", id.toString(), this);
+      store.set("Collateral", id.toString(), this);
     }
   }
 
-  static load(id: string): Borrow | null {
-    return changetype<Borrow | null>(store.get("Borrow", id));
+  static load(id: string): Collateral | null {
+    return changetype<Collateral | null>(store.get("Collateral", id));
   }
 
   get id(): string {
@@ -203,1404 +137,57 @@ export class Borrow extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get _borrower(): Bytes {
-    let value = this.get("_borrower");
-    return value!.toBytes();
-  }
-
-  set _borrower(value: Bytes) {
-    this.set("_borrower", Value.fromBytes(value));
-  }
-
-  get _borrowAmount(): BigInt {
-    let value = this.get("_borrowAmount");
+  get collateralID(): BigInt {
+    let value = this.get("collateralID");
     return value!.toBigInt();
   }
 
-  set _borrowAmount(value: BigInt) {
-    this.set("_borrowAmount", Value.fromBigInt(value));
+  set collateralID(value: BigInt) {
+    this.set("collateralID", Value.fromBigInt(value));
   }
 
-  get _tokenId(): BigInt {
-    let value = this.get("_tokenId");
-    return value!.toBigInt();
-  }
-
-  set _tokenId(value: BigInt) {
-    this.set("_tokenId", Value.fromBigInt(value));
-  }
-
-  get _totalBorrows(): BigInt {
-    let value = this.get("_totalBorrows");
-    return value!.toBigInt();
-  }
-
-  set _totalBorrows(value: BigInt) {
-    this.set("_totalBorrows", Value.fromBigInt(value));
-  }
-}
-
-export class BorrowFeesWithdrawn extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save BorrowFeesWithdrawn entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type BorrowFeesWithdrawn must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("BorrowFeesWithdrawn", id.toString(), this);
-    }
-  }
-
-  static load(id: string): BorrowFeesWithdrawn | null {
-    return changetype<BorrowFeesWithdrawn | null>(
-      store.get("BorrowFeesWithdrawn", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
+  get underlyingTokenAddr(): string {
+    let value = this.get("underlyingTokenAddr");
     return value!.toString();
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set underlyingTokenAddr(value: string) {
+    this.set("underlyingTokenAddr", Value.fromString(value));
   }
 
-  get _amount(): BigInt {
-    let value = this.get("_amount");
-    return value!.toBigInt();
+  get collateralTokenAddr(): string {
+    let value = this.get("collateralTokenAddr");
+    return value!.toString();
   }
 
-  set _amount(value: BigInt) {
-    this.set("_amount", Value.fromBigInt(value));
+  set collateralTokenAddr(value: string) {
+    this.set("collateralTokenAddr", Value.fromString(value));
   }
 
-  get _referralFees(): boolean {
-    let value = this.get("_referralFees");
+  get hTokenAddr(): string {
+    let value = this.get("hTokenAddr");
+    return value!.toString();
+  }
+
+  set hTokenAddr(value: string) {
+    this.set("hTokenAddr", Value.fromString(value));
+  }
+
+  get activeCoupon(): string {
+    let value = this.get("activeCoupon");
+    return value!.toString();
+  }
+
+  set activeCoupon(value: string) {
+    this.set("activeCoupon", Value.fromString(value));
+  }
+
+  get active(): boolean {
+    let value = this.get("active");
     return value!.toBoolean();
   }
 
-  set _referralFees(value: boolean) {
-    this.set("_referralFees", Value.fromBoolean(value));
-  }
-}
-
-export class BorrowLiquidated extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save BorrowLiquidated entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type BorrowLiquidated must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("BorrowLiquidated", id.toString(), this);
-    }
-  }
-
-  static load(id: string): BorrowLiquidated | null {
-    return changetype<BorrowLiquidated | null>(
-      store.get("BorrowLiquidated", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _initiator(): Bytes {
-    let value = this.get("_initiator");
-    return value!.toBytes();
-  }
-
-  set _initiator(value: Bytes) {
-    this.set("_initiator", Value.fromBytes(value));
-  }
-
-  get _liquidator(): Bytes {
-    let value = this.get("_liquidator");
-    return value!.toBytes();
-  }
-
-  set _liquidator(value: Bytes) {
-    this.set("_liquidator", Value.fromBytes(value));
-  }
-
-  get _owner(): Bytes {
-    let value = this.get("_owner");
-    return value!.toBytes();
-  }
-
-  set _owner(value: Bytes) {
-    this.set("_owner", Value.fromBytes(value));
-  }
-
-  get _collateralId(): BigInt {
-    let value = this.get("_collateralId");
-    return value!.toBigInt();
-  }
-
-  set _collateralId(value: BigInt) {
-    this.set("_collateralId", Value.fromBigInt(value));
-  }
-}
-
-export class BorrowReferred extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save BorrowReferred entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type BorrowReferred must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("BorrowReferred", id.toString(), this);
-    }
-  }
-
-  static load(id: string): BorrowReferred | null {
-    return changetype<BorrowReferred | null>(store.get("BorrowReferred", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _initiator(): Bytes {
-    let value = this.get("_initiator");
-    return value!.toBytes();
-  }
-
-  set _initiator(value: Bytes) {
-    this.set("_initiator", Value.fromBytes(value));
-  }
-
-  get _referrer(): string {
-    let value = this.get("_referrer");
-    return value!.toString();
-  }
-
-  set _referrer(value: string) {
-    this.set("_referrer", Value.fromString(value));
-  }
-
-  get _amount(): BigInt {
-    let value = this.get("_amount");
-    return value!.toBigInt();
-  }
-
-  set _amount(value: BigInt) {
-    this.set("_amount", Value.fromBigInt(value));
-  }
-
-  get _fee(): BigInt {
-    let value = this.get("_fee");
-    return value!.toBigInt();
-  }
-
-  set _fee(value: BigInt) {
-    this.set("_fee", Value.fromBigInt(value));
-  }
-}
-
-export class CollateralDeposited extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save CollateralDeposited entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type CollateralDeposited must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("CollateralDeposited", id.toString(), this);
-    }
-  }
-
-  static load(id: string): CollateralDeposited | null {
-    return changetype<CollateralDeposited | null>(
-      store.get("CollateralDeposited", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _initiator(): Bytes {
-    let value = this.get("_initiator");
-    return value!.toBytes();
-  }
-
-  set _initiator(value: Bytes) {
-    this.set("_initiator", Value.fromBytes(value));
-  }
-
-  get _collateralId(): BigInt {
-    let value = this.get("_collateralId");
-    return value!.toBigInt();
-  }
-
-  set _collateralId(value: BigInt) {
-    this.set("_collateralId", Value.fromBigInt(value));
-  }
-
-  get _couponId(): BigInt {
-    let value = this.get("_couponId");
-    return value!.toBigInt();
-  }
-
-  set _couponId(value: BigInt) {
-    this.set("_couponId", Value.fromBigInt(value));
-  }
-}
-
-export class CollateralWithdrawn extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save CollateralWithdrawn entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type CollateralWithdrawn must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("CollateralWithdrawn", id.toString(), this);
-    }
-  }
-
-  static load(id: string): CollateralWithdrawn | null {
-    return changetype<CollateralWithdrawn | null>(
-      store.get("CollateralWithdrawn", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _initiator(): Bytes {
-    let value = this.get("_initiator");
-    return value!.toBytes();
-  }
-
-  set _initiator(value: Bytes) {
-    this.set("_initiator", Value.fromBytes(value));
-  }
-
-  get _collateralId(): BigInt {
-    let value = this.get("_collateralId");
-    return value!.toBigInt();
-  }
-
-  set _collateralId(value: BigInt) {
-    this.set("_collateralId", Value.fromBigInt(value));
-  }
-}
-
-export class HiveFeesWithdrawn extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save HiveFeesWithdrawn entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type HiveFeesWithdrawn must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("HiveFeesWithdrawn", id.toString(), this);
-    }
-  }
-
-  static load(id: string): HiveFeesWithdrawn | null {
-    return changetype<HiveFeesWithdrawn | null>(
-      store.get("HiveFeesWithdrawn", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _amount(): BigInt {
-    let value = this.get("_amount");
-    return value!.toBigInt();
-  }
-
-  set _amount(value: BigInt) {
-    this.set("_amount", Value.fromBigInt(value));
-  }
-}
-
-export class InterestAccrued extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save InterestAccrued entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type InterestAccrued must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("InterestAccrued", id.toString(), this);
-    }
-  }
-
-  static load(id: string): InterestAccrued | null {
-    return changetype<InterestAccrued | null>(store.get("InterestAccrued", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _interestAccumulated(): BigInt {
-    let value = this.get("_interestAccumulated");
-    return value!.toBigInt();
-  }
-
-  set _interestAccumulated(value: BigInt) {
-    this.set("_interestAccumulated", Value.fromBigInt(value));
-  }
-
-  get _interestIndex(): BigInt {
-    let value = this.get("_interestIndex");
-    return value!.toBigInt();
-  }
-
-  set _interestIndex(value: BigInt) {
-    this.set("_interestIndex", Value.fromBigInt(value));
-  }
-
-  get _totalBorrows(): BigInt {
-    let value = this.get("_totalBorrows");
-    return value!.toBigInt();
-  }
-
-  set _totalBorrows(value: BigInt) {
-    this.set("_totalBorrows", Value.fromBigInt(value));
-  }
-}
-
-export class LiquidationClosed extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save LiquidationClosed entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type LiquidationClosed must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("LiquidationClosed", id.toString(), this);
-    }
-  }
-
-  static load(id: string): LiquidationClosed | null {
-    return changetype<LiquidationClosed | null>(
-      store.get("LiquidationClosed", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _initiator(): Bytes {
-    let value = this.get("_initiator");
-    return value!.toBytes();
-  }
-
-  set _initiator(value: Bytes) {
-    this.set("_initiator", Value.fromBytes(value));
-  }
-
-  get _borrower(): Bytes {
-    let value = this.get("_borrower");
-    return value!.toBytes();
-  }
-
-  set _borrower(value: Bytes) {
-    this.set("_borrower", Value.fromBytes(value));
-  }
-
-  get _collateralId(): BigInt {
-    let value = this.get("_collateralId");
-    return value!.toBigInt();
-  }
-
-  set _collateralId(value: BigInt) {
-    this.set("_collateralId", Value.fromBigInt(value));
-  }
-
-  get _borrowAmount(): BigInt {
-    let value = this.get("_borrowAmount");
-    return value!.toBigInt();
-  }
-
-  set _borrowAmount(value: BigInt) {
-    this.set("_borrowAmount", Value.fromBigInt(value));
-  }
-}
-
-export class ProtocolFeesUpdated extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ProtocolFeesUpdated entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type ProtocolFeesUpdated must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("ProtocolFeesUpdated", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ProtocolFeesUpdated | null {
-    return changetype<ProtocolFeesUpdated | null>(
-      store.get("ProtocolFeesUpdated", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _oldHiveFee(): BigInt {
-    let value = this.get("_oldHiveFee");
-    return value!.toBigInt();
-  }
-
-  set _oldHiveFee(value: BigInt) {
-    this.set("_oldHiveFee", Value.fromBigInt(value));
-  }
-
-  get _newHiveFee(): BigInt {
-    let value = this.get("_newHiveFee");
-    return value!.toBigInt();
-  }
-
-  set _newHiveFee(value: BigInt) {
-    this.set("_newHiveFee", Value.fromBigInt(value));
-  }
-
-  get _oldAdminFee(): BigInt {
-    let value = this.get("_oldAdminFee");
-    return value!.toBigInt();
-  }
-
-  set _oldAdminFee(value: BigInt) {
-    this.set("_oldAdminFee", Value.fromBigInt(value));
-  }
-
-  get _newAdminFee(): BigInt {
-    let value = this.get("_newAdminFee");
-    return value!.toBigInt();
-  }
-
-  set _newAdminFee(value: BigInt) {
-    this.set("_newAdminFee", Value.fromBigInt(value));
-  }
-
-  get _oldReserveFactor(): BigInt {
-    let value = this.get("_oldReserveFactor");
-    return value!.toBigInt();
-  }
-
-  set _oldReserveFactor(value: BigInt) {
-    this.set("_oldReserveFactor", Value.fromBigInt(value));
-  }
-
-  get _newReserveFactor(): BigInt {
-    let value = this.get("_newReserveFactor");
-    return value!.toBigInt();
-  }
-
-  set _newReserveFactor(value: BigInt) {
-    this.set("_newReserveFactor", Value.fromBigInt(value));
-  }
-}
-
-export class Redeem extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Redeem entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Redeem must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("Redeem", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Redeem | null {
-    return changetype<Redeem | null>(store.get("Redeem", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _initiator(): Bytes {
-    let value = this.get("_initiator");
-    return value!.toBytes();
-  }
-
-  set _initiator(value: Bytes) {
-    this.set("_initiator", Value.fromBytes(value));
-  }
-
-  get _redeemAmount(): BigInt {
-    let value = this.get("_redeemAmount");
-    return value!.toBigInt();
-  }
-
-  set _redeemAmount(value: BigInt) {
-    this.set("_redeemAmount", Value.fromBigInt(value));
-  }
-
-  get _tokensWithdrawn(): BigInt {
-    let value = this.get("_tokensWithdrawn");
-    return value!.toBigInt();
-  }
-
-  set _tokensWithdrawn(value: BigInt) {
-    this.set("_tokensWithdrawn", Value.fromBigInt(value));
-  }
-
-  get _totalHTokenSupply(): BigInt {
-    let value = this.get("_totalHTokenSupply");
-    return value!.toBigInt();
-  }
-
-  set _totalHTokenSupply(value: BigInt) {
-    this.set("_totalHTokenSupply", Value.fromBigInt(value));
-  }
-}
-
-export class RepayBorrow extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save RepayBorrow entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type RepayBorrow must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("RepayBorrow", id.toString(), this);
-    }
-  }
-
-  static load(id: string): RepayBorrow | null {
-    return changetype<RepayBorrow | null>(store.get("RepayBorrow", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _payer(): Bytes {
-    let value = this.get("_payer");
-    return value!.toBytes();
-  }
-
-  set _payer(value: Bytes) {
-    this.set("_payer", Value.fromBytes(value));
-  }
-
-  get _borrower(): Bytes {
-    let value = this.get("_borrower");
-    return value!.toBytes();
-  }
-
-  set _borrower(value: Bytes) {
-    this.set("_borrower", Value.fromBytes(value));
-  }
-
-  get _repayAmount(): BigInt {
-    let value = this.get("_repayAmount");
-    return value!.toBigInt();
-  }
-
-  set _repayAmount(value: BigInt) {
-    this.set("_repayAmount", Value.fromBigInt(value));
-  }
-
-  get _accountBorrows(): BigInt {
-    let value = this.get("_accountBorrows");
-    return value!.toBigInt();
-  }
-
-  set _accountBorrows(value: BigInt) {
-    this.set("_accountBorrows", Value.fromBigInt(value));
-  }
-
-  get _totalBorrows(): BigInt {
-    let value = this.get("_totalBorrows");
-    return value!.toBigInt();
-  }
-
-  set _totalBorrows(value: BigInt) {
-    this.set("_totalBorrows", Value.fromBigInt(value));
-  }
-
-  get _collateralId(): BigInt {
-    let value = this.get("_collateralId");
-    return value!.toBigInt();
-  }
-
-  set _collateralId(value: BigInt) {
-    this.set("_collateralId", Value.fromBigInt(value));
-  }
-}
-
-export class ReservesAdded extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ReservesAdded entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type ReservesAdded must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("ReservesAdded", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ReservesAdded | null {
-    return changetype<ReservesAdded | null>(store.get("ReservesAdded", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _supplier(): Bytes {
-    let value = this.get("_supplier");
-    return value!.toBytes();
-  }
-
-  set _supplier(value: Bytes) {
-    this.set("_supplier", Value.fromBytes(value));
-  }
-
-  get _addAmount(): BigInt {
-    let value = this.get("_addAmount");
-    return value!.toBigInt();
-  }
-
-  set _addAmount(value: BigInt) {
-    this.set("_addAmount", Value.fromBigInt(value));
-  }
-
-  get _newTotalReserves(): BigInt {
-    let value = this.get("_newTotalReserves");
-    return value!.toBigInt();
-  }
-
-  set _newTotalReserves(value: BigInt) {
-    this.set("_newTotalReserves", Value.fromBigInt(value));
-  }
-}
-
-export class ReservesReduced extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ReservesReduced entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type ReservesReduced must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("ReservesReduced", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ReservesReduced | null {
-    return changetype<ReservesReduced | null>(store.get("ReservesReduced", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _supplier(): Bytes {
-    let value = this.get("_supplier");
-    return value!.toBytes();
-  }
-
-  set _supplier(value: Bytes) {
-    this.set("_supplier", Value.fromBytes(value));
-  }
-
-  get _reduceAmount(): BigInt {
-    let value = this.get("_reduceAmount");
-    return value!.toBigInt();
-  }
-
-  set _reduceAmount(value: BigInt) {
-    this.set("_reduceAmount", Value.fromBigInt(value));
-  }
-
-  get _newTotalReserves(): BigInt {
-    let value = this.get("_newTotalReserves");
-    return value!.toBigInt();
-  }
-
-  set _newTotalReserves(value: BigInt) {
-    this.set("_newTotalReserves", Value.fromBigInt(value));
-  }
-}
-
-export class RoleAdminChanged extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save RoleAdminChanged entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type RoleAdminChanged must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("RoleAdminChanged", id.toString(), this);
-    }
-  }
-
-  static load(id: string): RoleAdminChanged | null {
-    return changetype<RoleAdminChanged | null>(
-      store.get("RoleAdminChanged", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get role(): Bytes {
-    let value = this.get("role");
-    return value!.toBytes();
-  }
-
-  set role(value: Bytes) {
-    this.set("role", Value.fromBytes(value));
-  }
-
-  get previousAdminRole(): Bytes {
-    let value = this.get("previousAdminRole");
-    return value!.toBytes();
-  }
-
-  set previousAdminRole(value: Bytes) {
-    this.set("previousAdminRole", Value.fromBytes(value));
-  }
-
-  get newAdminRole(): Bytes {
-    let value = this.get("newAdminRole");
-    return value!.toBytes();
-  }
-
-  set newAdminRole(value: Bytes) {
-    this.set("newAdminRole", Value.fromBytes(value));
-  }
-}
-
-export class RoleGranted extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save RoleGranted entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type RoleGranted must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("RoleGranted", id.toString(), this);
-    }
-  }
-
-  static load(id: string): RoleGranted | null {
-    return changetype<RoleGranted | null>(store.get("RoleGranted", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get role(): Bytes {
-    let value = this.get("role");
-    return value!.toBytes();
-  }
-
-  set role(value: Bytes) {
-    this.set("role", Value.fromBytes(value));
-  }
-
-  get account(): Bytes {
-    let value = this.get("account");
-    return value!.toBytes();
-  }
-
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
-  }
-
-  get sender(): Bytes {
-    let value = this.get("sender");
-    return value!.toBytes();
-  }
-
-  set sender(value: Bytes) {
-    this.set("sender", Value.fromBytes(value));
-  }
-}
-
-export class RoleRevoked extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save RoleRevoked entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type RoleRevoked must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("RoleRevoked", id.toString(), this);
-    }
-  }
-
-  static load(id: string): RoleRevoked | null {
-    return changetype<RoleRevoked | null>(store.get("RoleRevoked", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get role(): Bytes {
-    let value = this.get("role");
-    return value!.toBytes();
-  }
-
-  set role(value: Bytes) {
-    this.set("role", Value.fromBytes(value));
-  }
-
-  get account(): Bytes {
-    let value = this.get("account");
-    return value!.toBytes();
-  }
-
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
-  }
-
-  get sender(): Bytes {
-    let value = this.get("sender");
-    return value!.toBytes();
-  }
-
-  set sender(value: Bytes) {
-    this.set("sender", Value.fromBytes(value));
-  }
-}
-
-export class TransferBatch extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save TransferBatch entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type TransferBatch must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("TransferBatch", id.toString(), this);
-    }
-  }
-
-  static load(id: string): TransferBatch | null {
-    return changetype<TransferBatch | null>(store.get("TransferBatch", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get operator(): Bytes {
-    let value = this.get("operator");
-    return value!.toBytes();
-  }
-
-  set operator(value: Bytes) {
-    this.set("operator", Value.fromBytes(value));
-  }
-
-  get from(): Bytes {
-    let value = this.get("from");
-    return value!.toBytes();
-  }
-
-  set from(value: Bytes) {
-    this.set("from", Value.fromBytes(value));
-  }
-
-  get to(): Bytes {
-    let value = this.get("to");
-    return value!.toBytes();
-  }
-
-  set to(value: Bytes) {
-    this.set("to", Value.fromBytes(value));
-  }
-
-  get ids(): Array<BigInt> {
-    let value = this.get("ids");
-    return value!.toBigIntArray();
-  }
-
-  set ids(value: Array<BigInt>) {
-    this.set("ids", Value.fromBigIntArray(value));
-  }
-
-  get values(): Array<BigInt> {
-    let value = this.get("values");
-    return value!.toBigIntArray();
-  }
-
-  set values(value: Array<BigInt>) {
-    this.set("values", Value.fromBigIntArray(value));
-  }
-}
-
-export class TransferSingle extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save TransferSingle entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type TransferSingle must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("TransferSingle", id.toString(), this);
-    }
-  }
-
-  static load(id: string): TransferSingle | null {
-    return changetype<TransferSingle | null>(store.get("TransferSingle", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get operator(): Bytes {
-    let value = this.get("operator");
-    return value!.toBytes();
-  }
-
-  set operator(value: Bytes) {
-    this.set("operator", Value.fromBytes(value));
-  }
-
-  get from(): Bytes {
-    let value = this.get("from");
-    return value!.toBytes();
-  }
-
-  set from(value: Bytes) {
-    this.set("from", Value.fromBytes(value));
-  }
-
-  get to(): Bytes {
-    let value = this.get("to");
-    return value!.toBytes();
-  }
-
-  set to(value: Bytes) {
-    this.set("to", Value.fromBytes(value));
-  }
-
-  get id(): BigInt {
-    let value = this.get("id");
-    return value!.toBigInt();
-  }
-
-  set id(value: BigInt) {
-    this.set("id", Value.fromBigInt(value));
-  }
-
-  get value(): BigInt {
-    let value = this.get("value");
-    return value!.toBigInt();
-  }
-
-  set value(value: BigInt) {
-    this.set("value", Value.fromBigInt(value));
-  }
-}
-
-export class URI extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save URI entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type URI must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("URI", id.toString(), this);
-    }
-  }
-
-  static load(id: string): URI | null {
-    return changetype<URI | null>(store.get("URI", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get value(): string {
-    let value = this.get("value");
-    return value!.toString();
-  }
-
-  set value(value: string) {
-    this.set("value", Value.fromString(value));
-  }
-
-  get id(): BigInt {
-    let value = this.get("id");
-    return value!.toBigInt();
-  }
-
-  set id(value: BigInt) {
-    this.set("id", Value.fromBigInt(value));
-  }
-}
-
-export class UnderlyingDeposited extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save UnderlyingDeposited entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type UnderlyingDeposited must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("UnderlyingDeposited", id.toString(), this);
-    }
-  }
-
-  static load(id: string): UnderlyingDeposited | null {
-    return changetype<UnderlyingDeposited | null>(
-      store.get("UnderlyingDeposited", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _initiator(): Bytes {
-    let value = this.get("_initiator");
-    return value!.toBytes();
-  }
-
-  set _initiator(value: Bytes) {
-    this.set("_initiator", Value.fromBytes(value));
-  }
-
-  get _to(): Bytes {
-    let value = this.get("_to");
-    return value!.toBytes();
-  }
-
-  set _to(value: Bytes) {
-    this.set("_to", Value.fromBytes(value));
-  }
-
-  get _amount(): BigInt {
-    let value = this.get("_amount");
-    return value!.toBigInt();
-  }
-
-  set _amount(value: BigInt) {
-    this.set("_amount", Value.fromBigInt(value));
-  }
-
-  get _tokensToMint(): BigInt {
-    let value = this.get("_tokensToMint");
-    return value!.toBigInt();
-  }
-
-  set _tokensToMint(value: BigInt) {
-    this.set("_tokensToMint", Value.fromBigInt(value));
-  }
-
-  get _totalhTokenSupply(): BigInt {
-    let value = this.get("_totalhTokenSupply");
-    return value!.toBigInt();
-  }
-
-  set _totalhTokenSupply(value: BigInt) {
-    this.set("_totalhTokenSupply", Value.fromBigInt(value));
-  }
-}
-
-export class Withdraw extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Withdraw entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Withdraw must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("Withdraw", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Withdraw | null {
-    return changetype<Withdraw | null>(store.get("Withdraw", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get _initiator(): Bytes {
-    let value = this.get("_initiator");
-    return value!.toBytes();
-  }
-
-  set _initiator(value: Bytes) {
-    this.set("_initiator", Value.fromBytes(value));
-  }
-
-  get _redeemAmount(): BigInt {
-    let value = this.get("_redeemAmount");
-    return value!.toBigInt();
-  }
-
-  set _redeemAmount(value: BigInt) {
-    this.set("_redeemAmount", Value.fromBigInt(value));
-  }
-
-  get _tokensWithdrawn(): BigInt {
-    let value = this.get("_tokensWithdrawn");
-    return value!.toBigInt();
-  }
-
-  set _tokensWithdrawn(value: BigInt) {
-    this.set("_tokensWithdrawn", Value.fromBigInt(value));
-  }
-
-  get _totalHTokenSupply(): BigInt {
-    let value = this.get("_totalHTokenSupply");
-    return value!.toBigInt();
-  }
-
-  set _totalHTokenSupply(value: BigInt) {
-    this.set("_totalHTokenSupply", Value.fromBigInt(value));
+  set active(value: boolean) {
+    this.set("active", Value.fromBoolean(value));
   }
 }
