@@ -2,43 +2,41 @@ specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
-    name: HToken
+  - kind: ethereum/contract
+    name: Hivemind
     network: mumbai
     source:
-      address: "0xcbe353B6eE82ddd4383167E32f0BEdfD2616976b"
-      abi: HToken
-      startBlock: 30461200
+      address: "0x4892644dfaBdb209E60437732c40d4BF88Ed1f76"
+      abi: Hivemind
+      startBlock: 29675620
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - AddressUpdated
-        - AdminFeesWithdrawn
-        - ApprovalForAll
-        - Borrow
-        - BorrowFeesWithdrawn
-        - BorrowLiquidated
-        - BorrowReferred
-        - CollateralDeposited
-        - CollateralWithdrawn
-        - HiveFeesWithdrawn
-        - InterestAccrued
-        - LiquidationClosed
-        - ProtocolFeesUpdated
-        - Redeem
-        - RepayBorrow
-        - ReservesAdded
-        - ReservesReduced
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
-        - TransferBatch
-        - TransferSingle
-        - URI
-        - UnderlyingDeposited
-        - Withdraw
+        - Market
+      abis:
+        - name: Hivemind
+          file: ./abis/Hivemind.json
+        - name: HToken
+          file: ./abis/HToken.json
+      eventHandlers:
+        - event: MarketListed(indexed address)
+          handler: handleMarketListed
+      file: ./src/hivemind.ts
+templates:
+  - kind: ethereum
+    name: HToken
+    network: mumbai
+    source:
+      abi: HToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Coupon
+        - Collateral
       abis:
         - name: HToken
           file: ./abis/HToken.json
