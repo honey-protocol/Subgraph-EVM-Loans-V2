@@ -8,6 +8,8 @@ type Coupon @entity {
   hTokenAddr: String!
   active: Boolean!
   amount: BigInt!
+  timestamp: BigInt!
+  lastUpdateTimestamp: BigInt!
 }
 #id would be {HTokenAddress}-{collateralID}
 type Collateral @entity {

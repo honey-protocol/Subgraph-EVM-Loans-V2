@@ -10,8 +10,8 @@ import {
   Collateral,
   Coupon
 } from "../generated/schema"
-import { BigInt, log } from '@graphprotocol/graph-ts'
-import { getCollateralTokenAddress, getCouponId, getUnderlyingTokenAddress } from "./helper";
+import { BigInt, log, dataSource } from '@graphprotocol/graph-ts'
+import { getCouponId } from "./helper";
 
 
 export function handleBorrow(event: BorrowEvent): void {
@@ -28,6 +28,7 @@ export function handleBorrow(event: BorrowEvent): void {
         log.warning("can not find coupon {} to borrow", [collateral.activeCoupon])
       } else {
         coupon.amount = coupon.amount.plus(event.params._totalBorrows)
+        coupon.lastUpdateTimestamp = event.block.timestamp
         coupon.save()
       }
     }
@@ -48,6 +49,7 @@ export function handleBorrowLiquidated(event: BorrowLiquidatedEvent): void {
         log.warning("can not find coupon {} to liquidate", [collateral.activeCoupon])
       } else {
         coupon.active = false
+        coupon.lastUpdateTimestamp = event.block.timestamp
         coupon.save()
       }
     }
@@ -61,13 +63,14 @@ export function handleCollateralDeposited(
 ): void {
   let collateralId = `${event.address.toHexString()}-${event.params._collateralId.toString()}`
   let couponId = `${event.transaction.hash.toHex()}-${event.logIndex.toString()}`
+  let context = dataSource.context()
   let hToken = HToken.bind(event.address)
   let collateral = Collateral.load(collateralId)
   if (!collateral) {
     collateral = new Collateral(collateralId)
   }
-  collateral.collateralTokenAddr = getCollateralTokenAddress(hToken)
-  collateral.underlyingTokenAddr = getUnderlyingTokenAddress(hToken)
+  collateral.collateralTokenAddr = context.getString('collateralTokenAddr')
+  collateral.underlyingTokenAddr = context.getString('underlyingTokenAddr')
   collateral.hTokenAddr = event.address.toHexString()
   collateral.collateralID = event.params._collateralId
   collateral.active = true
@@ -80,6 +83,8 @@ export function handleCollateralDeposited(
   coupon.amount = BigInt.fromI32(0)
   coupon.active = true
   collateral.activeCoupon = couponId
+  coupon.timestamp = event.block.timestamp
+  coupon.lastUpdateTimestamp = event.block.timestamp
   coupon.save()
   collateral.save()
 }
@@ -100,6 +105,7 @@ export function handleCollateralWithdrawn(
         log.warning("can not find coupon {} to withdraw", [collateral.activeCoupon])
       } else {
         coupon.active = false
+        coupon.lastUpdateTimestamp = event.block.timestamp
         coupon.save()
       }
     }
@@ -122,6 +128,7 @@ export function handleRepayBorrow(event: RepayBorrowEvent): void {
         log.warning("can not find coupon {} to repay borrow", [collateral.activeCoupon])
       } else {
         coupon.amount = coupon.amount.minus(event.params._repayAmount)
+        coupon.lastUpdateTimestamp = event.block.timestamp
         coupon.save()
       }
     }
