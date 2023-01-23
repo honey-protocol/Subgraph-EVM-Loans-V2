@@ -85,6 +85,7 @@ export function handleCollateralDeposited(
   collateral.activeCoupon = couponId
   coupon.timestamp = event.block.timestamp
   coupon.lastUpdateTimestamp = event.block.timestamp
+  coupon.owner = event.params._initiator.toHexString()
   coupon.save()
   collateral.save()
 }

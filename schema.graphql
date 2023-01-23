@@ -7,6 +7,7 @@ type Coupon @entity {
   collateralTokenAddr: String!
   hTokenAddr: String!
   active: Boolean!
+  owner: String!
   amount: BigInt!
   timestamp: BigInt!
   lastUpdateTimestamp: BigInt!

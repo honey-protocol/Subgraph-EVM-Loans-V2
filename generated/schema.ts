@@ -96,6 +96,15 @@ export class Coupon extends Entity {
     this.set("active", Value.fromBoolean(value));
   }
 
+  get owner(): string {
+    let value = this.get("owner");
+    return value!.toString();
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+
   get amount(): BigInt {
     let value = this.get("amount");
     return value!.toBigInt();
