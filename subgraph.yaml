@@ -51,4 +51,10 @@ templates:
           handler: handleCollateralWithdrawn
         - event: RepayBorrow(indexed address,indexed address,uint256,uint256,uint256,uint256)
           handler: handleRepayBorrow
+        - event: UnderlyingDeposited(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleUnderlyingDeposited
+        - event: Redeem(indexed address,uint256,uint256,uint256)
+          handler: handleRedeem
+        - event: Withdraw(indexed address,uint256,uint256,uint256)
+          handler: handleWithdraw
       file: ./src/h-token.ts

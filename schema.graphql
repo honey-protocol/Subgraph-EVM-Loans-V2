@@ -22,3 +22,11 @@ type Collateral @entity {
   activeCoupon: Coupon!
   active: Boolean!
 }
+
+#id would be {HTokenAddress}-{userAddress}
+type UserUnderlying @entity {
+  id: ID!
+  hTokenAddr: String!
+  userAddr: String!
+  amount: BigInt!
+}
