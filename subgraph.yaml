@@ -37,6 +37,7 @@ templates:
       entities:
         - Coupon
         - Collateral
+        - UserUnderlying
       abis:
         - name: HToken
           file: ./abis/HToken.json

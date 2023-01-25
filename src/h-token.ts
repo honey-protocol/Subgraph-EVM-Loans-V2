@@ -3,8 +3,10 @@ import {
   BorrowLiquidated as BorrowLiquidatedEvent,
   CollateralDeposited as CollateralDepositedEvent,
   CollateralWithdrawn as CollateralWithdrawnEvent,
+  Redeem as RedeemEvent,
   RepayBorrow as RepayBorrowEvent,
   UnderlyingDeposited as UnderlyingDepositedEvent,
+  Withdraw as WithdrawEvent,
   HToken
 } from "../generated/HToken/HToken"
 import {
@@ -142,10 +144,39 @@ export function handleUnderlyingDeposited(event: UnderlyingDepositedEvent): void
   let userUnderlying = UserUnderlying.load(userUnderlyingId)
   if (!userUnderlying) {
     userUnderlying = new UserUnderlying(userUnderlyingId)
+    userUnderlying.owner = event.params._initiator.toHexString()
+    userUnderlying.hTokenAddr = event.address.toHexString()
+    userUnderlying.amount = event.params._amount
+  } else {
+    userUnderlying.amount = userUnderlying.amount.plus(event.params._amount)
   }
-  userUnderlying.owner = event.params._initiator.toHexString()
-  userUnderlying.hTokenAddr = event.address.toHexString()
-  userUnderlying.amount = event.params._amount
   userUnderlying.save()
 }
 
+export function handleRedeem(event: RedeemEvent): void {
+  let userUnderlyingId = `${event.address.toHexString()}-${event.params._initiator.toHexString()}`
+  let userUnderlying = UserUnderlying.load(userUnderlyingId)
+  if (!userUnderlying) {
+    userUnderlying = new UserUnderlying(userUnderlyingId)
+    userUnderlying.owner = event.params._initiator.toHexString()
+    userUnderlying.hTokenAddr = event.address.toHexString()
+    userUnderlying.amount = BigInt.fromI32(0).minus(event.params._redeemAmount)
+  } else {
+    userUnderlying.amount = userUnderlying.amount.minus(event.params._redeemAmount)
+  }
+  userUnderlying.save()
+}
+
+export function handleWithdraw(event: WithdrawEvent): void {
+  let userUnderlyingId = `${event.address.toHexString()}-${event.params._initiator.toHexString()}`
+  let userUnderlying = UserUnderlying.load(userUnderlyingId)
+  if (!userUnderlying) {
+    userUnderlying = new UserUnderlying(userUnderlyingId)
+    userUnderlying.owner = event.params._initiator.toHexString()
+    userUnderlying.hTokenAddr = event.address.toHexString()
+    userUnderlying.amount = BigInt.fromI32(0).minus(event.params._redeemAmount)
+  } else {
+    userUnderlying.amount = userUnderlying.amount.minus(event.params._redeemAmount)
+  }
+  userUnderlying.save()
+}
