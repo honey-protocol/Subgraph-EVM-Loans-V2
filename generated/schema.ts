@@ -259,13 +259,13 @@ export class UserUnderlying extends Entity {
     this.set("hTokenAddr", Value.fromString(value));
   }
 
-  get userAddr(): string {
-    let value = this.get("userAddr");
+  get owner(): string {
+    let value = this.get("owner");
     return value!.toString();
   }
 
-  set userAddr(value: string) {
-    this.set("userAddr", Value.fromString(value));
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
   }
 
   get amount(): BigInt {

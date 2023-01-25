@@ -23,10 +23,10 @@ type Collateral @entity {
   active: Boolean!
 }
 
-#id would be {HTokenAddress}-{userAddress}
+#id would be {HTokenAddress}-{owner}
 type UserUnderlying @entity {
   id: ID!
   hTokenAddr: String!
-  userAddr: String!
+  owner: String!
   amount: BigInt!
 }

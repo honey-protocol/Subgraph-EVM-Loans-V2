@@ -4,11 +4,12 @@ import {
   CollateralDeposited as CollateralDepositedEvent,
   CollateralWithdrawn as CollateralWithdrawnEvent,
   RepayBorrow as RepayBorrowEvent,
+  UnderlyingDeposited as UnderlyingDepositedEvent,
   HToken
 } from "../generated/HToken/HToken"
 import {
   Collateral,
-  Coupon
+  Coupon, UserUnderlying
 } from "../generated/schema"
 import { BigInt, log, dataSource } from '@graphprotocol/graph-ts'
 import { getCouponId } from "./helper";
@@ -18,10 +19,10 @@ export function handleBorrow(event: BorrowEvent): void {
   let collateralId = `${event.address.toHexString()}-${event.params._tokenId.toString()}`
   let collateral = Collateral.load(collateralId)
   if (!collateral) {
-    log.warning("can not find collateral {} at handleBorrow event", [collateralId])
+    log.warning("can not find collateral {} at borrow event", [collateralId])
   } else {
     if (!collateral.active) {
-      log.warning("collateral is not active {} at handleBorrow event", [collateralId])
+      log.warning("collateral is not active {} at borrow event", [collateralId])
     } else {
       let coupon = Coupon.load(collateral.activeCoupon)
       if (!coupon) {
@@ -39,10 +40,10 @@ export function handleBorrowLiquidated(event: BorrowLiquidatedEvent): void {
   let collateralId = `${event.address.toHexString()}-${event.params._collateralId.toString()}`
   let collateral = Collateral.load(collateralId)
   if (!collateral) {
-    log.warning("can not find collateral {} at handleBorrowLiquidated event", [collateralId])
+    log.warning("can not find collateral {} at borrowLiquidated event", [collateralId])
   } else {
     if (!collateral.active) {
-      log.warning("collateral is not active {} at handleBorrowLiquidated event", [collateralId])
+      log.warning("collateral is not active {} at borrowLiquidated event", [collateralId])
     } else {
       let coupon = Coupon.load(collateral.activeCoupon)
       if (!coupon) {
@@ -119,10 +120,10 @@ export function handleRepayBorrow(event: RepayBorrowEvent): void {
   let collateralId = `${event.address.toHexString()}-${event.params._collateralId.toString()}`
   let collateral = Collateral.load(collateralId)
   if (!collateral) {
-    log.warning("can not find collateral {} at handleRepayBorrow event", [collateralId])
+    log.warning("can not find collateral {} at repayBorrow event", [collateralId])
   } else {
     if (!collateral.active) {
-      log.warning("collateral is not active {} at handleRepayBorrow event", [collateralId])
+      log.warning("collateral is not active {} at repayBorrow event", [collateralId])
     } else {
       let coupon = Coupon.load(collateral.activeCoupon)
       if (!coupon) {
@@ -134,5 +135,17 @@ export function handleRepayBorrow(event: RepayBorrowEvent): void {
       }
     }
   }
+}
+
+export function handleUnderlyingDeposited(event: UnderlyingDepositedEvent): void {
+  let userUnderlyingId = `${event.address.toHexString()}-${event.params._initiator.toHexString()}`
+  let userUnderlying = UserUnderlying.load(userUnderlyingId)
+  if (!userUnderlying) {
+    userUnderlying = new UserUnderlying(userUnderlyingId)
+  }
+  userUnderlying.owner = event.params._initiator.toHexString()
+  userUnderlying.hTokenAddr = event.address.toHexString()
+  userUnderlying.amount = event.params._amount
+  userUnderlying.save()
 }
 
