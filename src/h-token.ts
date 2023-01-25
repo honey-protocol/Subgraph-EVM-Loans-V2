@@ -5,6 +5,7 @@ import {
   CollateralWithdrawn as CollateralWithdrawnEvent,
   Redeem as RedeemEvent,
   RepayBorrow as RepayBorrowEvent,
+  TransferSingle as TransferSingleEvent,
   UnderlyingDeposited as UnderlyingDepositedEvent,
   Withdraw as WithdrawEvent,
   HToken
@@ -179,4 +180,33 @@ export function handleWithdraw(event: WithdrawEvent): void {
     userUnderlying.amount = userUnderlying.amount.minus(event.params._redeemAmount)
   }
   userUnderlying.save()
+}
+
+export function handleTransferSingle(event: TransferSingleEvent): void {
+  if (event.params.id.equals(BigInt.fromI32(1))) {
+    let toUserUnderlyingId = `${event.address.toHexString()}-${event.params.to.toHexString()}`
+    let toUserUnderlying = UserUnderlying.load(toUserUnderlyingId)
+    if (!toUserUnderlying) {
+      toUserUnderlying = new UserUnderlying(toUserUnderlyingId)
+      toUserUnderlying.owner = event.params.to.toHexString()
+      toUserUnderlying.hTokenAddr = event.address.toHexString()
+      toUserUnderlying.amount = event.params.value
+      toUserUnderlying.save()
+    } else {
+      toUserUnderlying.amount = toUserUnderlying.amount.plus(event.params.value)
+      toUserUnderlying.save()
+    }
+    let fromUserUnderlyingId = `${event.address.toHexString()}-${event.params.from.toHexString()}`
+    let fromUserUnderlying = UserUnderlying.load(fromUserUnderlyingId)
+    if (!fromUserUnderlying) {
+      fromUserUnderlying = new UserUnderlying(fromUserUnderlyingId)
+      fromUserUnderlying.owner = event.params.from.toHexString()
+      fromUserUnderlying.hTokenAddr = event.address.toHexString()
+      fromUserUnderlying.amount = BigInt.fromI32(0).minus(event.params.value)
+      fromUserUnderlying.save()
+    } else {
+      fromUserUnderlying.amount = fromUserUnderlying.amount.minus(event.params.value)
+      fromUserUnderlying.save()
+    }
+  }
 }

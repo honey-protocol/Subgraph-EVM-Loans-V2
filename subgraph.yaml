@@ -58,4 +58,6 @@ templates:
           handler: handleRedeem
         - event: Withdraw(indexed address,uint256,uint256,uint256)
           handler: handleWithdraw
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
       file: ./src/h-token.ts
