@@ -183,7 +183,7 @@ export function handleWithdraw(event: WithdrawEvent): void {
 }
 
 export function handleTransferSingle(event: TransferSingleEvent): void {
-  if (event.params.id.equals(BigInt.fromI32(1)) && event.params.to.toHexString() != "0x0000000000000000000000000000000000000000") {
+  if (event.params.id.equals(BigInt.fromI32(1))) {
     let toUserUnderlyingId = `${event.address.toHexString()}-${event.params.to.toHexString()}`
     let toUserUnderlying = UserUnderlying.load(toUserUnderlyingId)
     if (!toUserUnderlying) {
