@@ -3,12 +3,12 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Hivemind
-    network: mumbai
+    name: Controller
+    network: arbitrum-one
     source:
-      address: "0x4892644dfaBdb209E60437732c40d4BF88Ed1f76"
-      abi: Hivemind
-      startBlock: 29675620
+      address: "0xbE55638ACDdDe957fD934Ba1B37fA2Ef7A06425d"
+      abi: Controller
+      startBlock: 64381688 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -16,20 +16,22 @@ dataSources:
       entities:
         - Market
       abis:
-        - name: Hivemind
-          file: ./abis/Hivemind.json
+        - name: Controller
+          file: ./abis/Controller.json
         - name: HToken
           file: ./abis/HToken.json
       eventHandlers:
         - event: MarketListed(indexed address)
           handler: handleMarketListed
-      file: ./src/hivemind.ts
+      file: ./src/controller.ts
 templates:
   - kind: ethereum
     name: HToken
-    network: mumbai
+    network: arbitrum-one
     source:
       abi: HToken
+      address: "0x582be1f3d46b71c1c93b03b3cf195ebc4e13d8a2"
+      startBlock: 64381688 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
