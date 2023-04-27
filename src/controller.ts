@@ -1,4 +1,4 @@
-import { MarketListed } from "../generated/Hivemind/Hivemind";
+import { MarketListed } from "../generated/Controller/Controller";
 import {
   HToken as HTokenTemplate
 } from "../generated/templates"

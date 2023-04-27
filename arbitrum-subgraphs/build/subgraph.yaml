@@ -1,6 +1,6 @@
 specVersion: 0.0.4
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Controller
@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0xbE55638ACDdDe957fD934Ba1B37fA2Ef7A06425d"
       abi: Controller
-      startBlock: 64381688 
+      startBlock: 64381688
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -17,21 +17,19 @@ dataSources:
         - Market
       abis:
         - name: Controller
-          file: ./abis/Controller.json
+          file: Controller/abis/Controller.json
         - name: HToken
-          file: ./abis/HToken.json
+          file: Controller/abis/HToken.json
       eventHandlers:
         - event: MarketListed(indexed address)
           handler: handleMarketListed
-      file: ./src/controller.ts
+      file: Controller/Controller.wasm
 templates:
   - kind: ethereum
     name: HToken
     network: arbitrum-one
     source:
       abi: HToken
-      address: "0x582be1f3d46b71c1c93b03b3cf195ebc4e13d8a2"
-      startBlock: 64381688 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -42,7 +40,7 @@ templates:
         - UserUnderlying
       abis:
         - name: HToken
-          file: ./abis/HToken.json
+          file: HToken/abis/HToken.json
       eventHandlers:
         - event: Borrow(indexed address,uint256,uint256,uint256)
           handler: handleBorrow
@@ -62,4 +60,4 @@ templates:
           handler: handleWithdraw
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTransferSingle
-      file: ./src/h-token.ts
+      file: templates/HToken/HToken.wasm
