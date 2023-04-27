@@ -1,0 +1,32 @@
+#id would be {tx}-{logindex}
+type Coupon @entity {
+  id: ID!
+  collateralID: BigInt!
+  couponID: BigInt!
+  underlyingTokenAddr: String!
+  collateralTokenAddr: String!
+  hTokenAddr: String!
+  active: Boolean!
+  owner: String!
+  amount: BigInt!
+  timestamp: BigInt!
+  lastUpdateTimestamp: BigInt!
+}
+#id would be {HTokenAddress}-{collateralID}
+type Collateral @entity {
+  id: ID!
+  collateralID: BigInt!
+  underlyingTokenAddr: String!
+  collateralTokenAddr: String!
+  hTokenAddr: String!
+  activeCoupon: Coupon!
+  active: Boolean!
+}
+
+#id would be {HTokenAddress}-{owner}
+type UserUnderlying @entity {
+  id: ID!
+  hTokenAddr: String!
+  owner: String!
+  amount: BigInt!
+}
