@@ -1,0 +1,63 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Controller
+    network: bsc
+    source:
+      address: "0xE5870FA96a4C1250AA928d0192f466A5CbAe5d13"
+      abi: Controller
+      startBlock: 28518316 
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Market
+      abis:
+        - name: Controller
+          file: ./abis/Controller.json
+        - name: HToken
+          file: ./abis/HToken.json
+      eventHandlers:
+        - event: MarketListed(indexed address)
+          handler: handleMarketListed
+      file: ./src/controller.ts
+templates:
+  - kind: ethereum
+    name: HToken
+    network: bsc
+    source:
+      abi: HToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Coupon
+        - Collateral
+        - UserUnderlying
+      abis:
+        - name: HToken
+          file: ./abis/HToken.json
+      eventHandlers:
+        - event: Borrow(indexed address,uint256,uint256,uint256)
+          handler: handleBorrow
+        - event: BorrowLiquidated(indexed address,indexed address,address,uint256)
+          handler: handleBorrowLiquidated
+        - event: CollateralDeposited(indexed address,uint256,uint256)
+          handler: handleCollateralDeposited
+        - event: CollateralWithdrawn(indexed address,uint256)
+          handler: handleCollateralWithdrawn
+        - event: RepayBorrow(indexed address,indexed address,uint256,uint256,uint256,uint256)
+          handler: handleRepayBorrow
+        - event: UnderlyingDeposited(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleUnderlyingDeposited
+        - event: Redeem(indexed address,uint256,uint256,uint256)
+          handler: handleRedeem
+        - event: Withdraw(indexed address,uint256,uint256,uint256)
+          handler: handleWithdraw
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+      file: ./src/h-token.ts
